@@ -1,0 +1,8 @@
+{
+  "name": "custom-gpt-chrome-mcp-agent",
+  "build": {"dockerfile": "../Dockerfile", "context": ".."},
+  "remoteUser": "agent",
+  "forwardPorts": [8788],
+  "postCreateCommand": "npm install",
+  "customizations": {"vscode": {"extensions": ["dbaeumer.vscode-eslint", "ms-azuretools.vscode-docker"]}}
+}
