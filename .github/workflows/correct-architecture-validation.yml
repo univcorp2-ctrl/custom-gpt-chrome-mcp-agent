@@ -1,0 +1,30 @@
+name: Correct Architecture Validation
+on:
+  push:
+    paths:
+      - 'validation/**'
+      - '.github/workflows/correct-architecture-validation.yml'
+      - 'README.md'
+      - 'public/index.html'
+  pull_request:
+    paths:
+      - 'validation/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: validation
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npm run typecheck
+      - run: npm test
+      - name: Verify official Chrome MCP package
+        run: npx -y chrome-devtools-mcp@1.6.0 --help | head -40
