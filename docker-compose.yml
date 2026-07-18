@@ -1,0 +1,28 @@
+services:
+  chrome-agent:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:8788:8788"
+    volumes:
+      - chrome-profile:/data/chrome-profile
+      - uploads:/data/uploads
+      - audit:/data/audit
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    shm_size: 1gb
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARED_TUNNEL_TOKEN}
+    depends_on:
+      - chrome-agent
+
+volumes:
+  chrome-profile:
+  uploads:
+  audit:
