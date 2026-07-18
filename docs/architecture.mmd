@@ -1,0 +1,7 @@
+flowchart LR
+  GPT[Custom GPT\nOpenAPI Actions] -->|HTTPS + URL secret| TUNNEL[Cloudflare Tunnel]
+  TUNNEL --> AGENT[Local Node Agent]
+  AGENT --> POLICY[Tool and domain policy]
+  POLICY --> MCP[Chrome DevTools MCP 1.6.0]
+  MCP --> CHROME[Dedicated Chrome profile]
+  AGENT --> AUDIT[(Redacted JSONL audit log)]
